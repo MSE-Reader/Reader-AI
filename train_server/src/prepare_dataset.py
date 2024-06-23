@@ -56,16 +56,13 @@ class PrepareDataset():
           part['ner_tags'] = ner_tags
           data_list.append(part)
 
-        # 가능한 NER 태그 정의
         ner_class_label = ClassLabel(num_classes=len(list(label2id.keys())),names=list(label2id.keys()))
-
-        # 데이터셋의 features 정의
         features = Features({
-            'id': Value('string'),  # 예시 ID
-            'image': Image(),  # 이미지 데이터, 실제 사용시 적절한 형식으로 정의 필요
-            'tokens': Sequence(Value('string')),  # 토큰의 시퀀스
-            'bboxes': Sequence(feature=Sequence(Value('int64'), length=-1), length=-1),  # 바운딩 박스의 시퀀스, 각 바운딩 박스는 4개의 정수(x_min, y_min, x_max, y_max)로 구성
-            'ner_tags': Sequence(feature=ner_class_label, length=-1)  # NER 태그의 시퀀스
+            'id': Value('string'),
+            'image': Image(),
+            'tokens': Sequence(Value('string')), 
+            'bboxes': Sequence(feature=Sequence(Value('int64'), length=-1), length=-1),  
+            'ner_tags': Sequence(feature=ner_class_label, length=-1) 
         })
 
         dataset = Dataset.from_list(data_list, features=features)
