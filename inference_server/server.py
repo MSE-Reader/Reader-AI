@@ -17,7 +17,7 @@ import tempfile
 
 app = FastAPI()
 
-colab_url = ''
+proxy_url = ''
 
 agent_dict = {}
 app.add_middleware(
@@ -30,18 +30,18 @@ app.add_middleware(
 
 @app.post("/set_url")
 async def set_url(url:str = Form()):
-    global colab_url
-    colab_url = url
-    return {"message": colab_url}
+    global proxy_url
+    proxy_url = url
+    return {"message": proxy_url}
 
 @app.post('/ai/remain', status_code=status.HTTP_200_OK)
 async def remain(user_id: str = Form()):
-    response = requests.post(colab_url + '/ai/remain', data={'user_id': user_id}).json()
+    response = requests.post(proxy_url + '/ai/remain', data={'user_id': user_id}).json()
     return JSONResponse(content={'content': response}, status_code=status.HTTP_200_OK)
 
 @app.post('/ai/predict', status_code=status.HTTP_200_OK)
 async def predict(user_id: str = Form()):
-    response = requests.get(colab_url + '/ai/predict',data={'user_id':user_id})
+    response = requests.get(proxy_url + '/ai/predict',data={'user_id':user_id})
     headers = {
         "Content-Disposition": 'attachment; filename="result.xlsx"'
     }
