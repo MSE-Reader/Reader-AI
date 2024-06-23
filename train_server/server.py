@@ -17,7 +17,7 @@ import tempfile
 
 app = FastAPI()
 
-colab_url = ''
+proxy_url = ''
 
 agent_dict = {}
 app.add_middleware(
@@ -30,9 +30,9 @@ app.add_middleware(
 
 @app.post("/set_url")
 async def set_url(url:str = Form()):
-    global colab_url
-    colab_url = url
-    return {"message": colab_url}
+    global proxy_url
+    proxy_url = url
+    return {"message": proxy_url}
 
 @app.post('/ai/ocr', status_code=status.HTTP_200_OK)
 async def ocr_image(file: UploadFile = File(...), token: str = Form()):
@@ -66,7 +66,7 @@ async def ocr_image(file: UploadFile = File(...), token: str = Form()):
 
 def send_training_request(user_id: str):
     response = requests.post('http://44.220.226.121:8080/generate', data={'user_id': user_id})
-    response = requests.post(colab_url + '/ai/train', data={'user_id': user_id})
+    response = requests.post(proxy_url + '/ai/train', data={'user_id': user_id})
     if response.status_code == 200:
         return {'content': response.json()['content']}
     else:
@@ -79,7 +79,7 @@ async def train(background_tasks: BackgroundTasks,user_id: str = Form()):
 
 @app.post('/ai/remain', status_code=status.HTTP_200_OK)
 async def remain(user_id: str = Form()):
-    response = requests.post(colab_url + '/ai/remain', data={'user_id': user_id}).json()
+    response = requests.post(proxy_url + '/ai/remain', data={'user_id': user_id}).json()
     return JSONResponse(content={'content': response}, status_code=status.HTTP_200_OK)
 
 @app.exception_handler(Exception)
