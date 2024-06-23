@@ -22,7 +22,6 @@ ml_models = {}
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     global executor
-    # Load the ML model
     print('Model Loading . . .')
     model_directory = ''
     model = PredictModel(model_directory)
