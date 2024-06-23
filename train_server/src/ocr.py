@@ -58,10 +58,8 @@ class OCR:
         self.file_dir = save_dir
     # azure ocr 수행
     def azure_ocr(self):
-        endpoint = "https://capstone-ocr.cognitiveservices.azure.com/"
-        key = "719781c774ac4ba6b64af0344d441908"
-        # endpoint = "https://edge-form-recognizer.cognitiveservices.azure.com/"
-        # key = "31eed2fcc96c45f6a657837baeb4ed4e"
+        endpoint = ""
+        key = ""
         document_analysis_client = DocumentAnalysisClient(
             endpoint=endpoint, credential=AzureKeyCredential(key)
         )
@@ -70,11 +68,9 @@ class OCR:
             poller = document_analysis_client.begin_analyze_document("prebuilt-document", document=f)
 
         self.ocr_result = poller.result()
-    # ocr 전처리
     def azure_coordinate_data(self):
         bbox_list = []
         word_list = []
-        # 문자 단위로 문자와 bbox 반환
         for word in self.ocr_result.to_dict()['pages'][0]['words']:
             x = []
             y = []
