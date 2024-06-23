@@ -158,3 +158,9 @@ async def predict(user_id: str = Form()):
         s3_client.put_object(Bucket=bucket_name, Key=(f'{user_id}/result/result.xlsx'), Body=f)
     headers = {'Content-Disposition': f'attachment; filename="result.xlsx"'}
     return FileResponse(file_path, headers=headers)
+
+
+@app.exception_handler(Exception)
+async def global_exception_handler(request, exc):
+    error_message = {"error": str(exc)}
+    return JSONResponse(status_code=500, content=error_message)
