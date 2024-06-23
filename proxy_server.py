@@ -24,12 +24,11 @@ async def lifespan(app: FastAPI):
     global executor
     # Load the ML model
     print('Model Loading . . .')
-    model_directory = '/content/drive/MyDrive/캡스톤/reciept_workspace_reciept/Work_Space/Model/model'
+    model_directory = ''
     model = PredictModel(model_directory)
     ml_models["model"] = model
     executor = ThreadPoolExecutor(max_workers=6)
     yield
-    # Clean up the ML models and release the resources
     print('SHUT DOWN')
     executor.shutdown(wait=True)
     ml_models.clear()
