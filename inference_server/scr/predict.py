@@ -23,11 +23,11 @@ class PredictModel:
               result[new_key] = value
 
         for key, value in data.items():
-            new_key = key[2:]  # 'B-' 또는 'I-' 접두어를 제거
+            new_key = key[2:] 
             if new_key in result:
-                result[new_key] += value  # 기존 값에 추가
+                result[new_key] += value 
             else:
-                result[new_key] = value # 새 키 생성, 공백 제거
+                result[new_key] = value
         result = {key: val[:1] + sorted(val[1:]) for key,val in result.items()}
         return result
 
