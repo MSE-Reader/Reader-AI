@@ -67,7 +67,7 @@ async def chat(user_id: str = Form(), prompt:str = Form()):
     if image_path:
         image = Image.open(image_path)
         buffered = io.BytesIO()
-        image.save(buffered, format="PNG")  # 이미지 포맷에 따라 변경 가능
+        image.save(buffered, format="PNG") 
         img_str = base64.b64encode(buffered.getvalue()).decode()
     return {'image':img_str, 'response':response}
 
