@@ -22,10 +22,8 @@ class CenterPadToSquare:
         return padded_img
 
 def resize_image(image, width=1000, height=1000):
-    # 이미지 로드
     orig_width, orig_height = image.size
 
-    # 변환할 크기 계산 (한 변이 1000이 되도록)
     if orig_width > orig_height:
         new_width = width
         new_height = int((orig_height / orig_width) * width)
@@ -33,7 +31,6 @@ def resize_image(image, width=1000, height=1000):
         new_height = height
         new_width = int((orig_width / orig_height) * height)
 
-    # 이미지 크기 조정
     resized_image = image.resize((new_width, new_height), resample=Image.LANCZOS)
     return resized_image
 
